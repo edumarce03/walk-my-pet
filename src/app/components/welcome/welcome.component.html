@@ -1,1 +1,103 @@
-<p>welcome works!</p>
+<div class="flex items-center justify-center min-h-screen px-4 py-12">
+  <div
+    class="w-full max-w-xs md:max-w-md bg-white rounded-lg shadow-lg border border-gray-200 p-4 md:p-8 mx-auto"
+  >
+    <!-- Mostrar loader si isLoading es true -->
+    @if (isLoading) {
+    <div class="py-8">
+      <app-loader></app-loader>
+    </div>
+    }
+
+    <!-- Mostrar contenido si isLoading es false -->
+    @if (!isLoading) {
+    <div class="text-center">
+      <!-- Mostrar foto de perfil si está disponible -->
+      @if (user && user.photoURL) {
+      <div class="mb-6">
+        <div class="relative inline-block">
+          <img
+            [src]="user.photoURL"
+            alt="Foto de perfil"
+            class="w-24 h-24 rounded-full object-cover border-2 border-indigo-100 shadow-sm"
+          />
+          <div
+            class="absolute bottom-0 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-white"
+          ></div>
+        </div>
+      </div>
+      }
+
+      <!-- Mostrar nombre y correo -->
+      <div class="my-4">
+        <h2 class="text-xl md:text-2xl font-bold text-gray-800 font-inter mb-1">
+          ¡Bienvenido, {{ user?.displayName || "Usuario" }}!
+        </h2>
+        <p class="text-gray-500 font-inter mb-4 text-sm italic">
+          {{ user?.email }}
+        </p>
+      </div>
+
+      <!-- Mostrar logo del proveedor -->
+      @if (user && user.providerData && user.providerData.length > 0) {
+      <div
+        class="mb-2 bg-gray-50 inline-flex items-center py-1.5 px-3 rounded-full"
+      >
+        <img
+          [src]="getProviderLogo(user.providerData[0].providerId)"
+          alt="Logo del proveedor"
+          class="w-4 h-4"
+        />
+      </div>
+      }
+
+      <!-- Selección de rol (solo si showRoleSelection es true) -->
+      @if(showRoleSelection){
+      <div class="my-2">
+        <p class="text-gray-600 font-inter my-5 text-xs md:text-sm">
+          Selecciona cómo deseas usar la aplicación:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <button
+            (click)="selectRole('owner')"
+            class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all group"
+          >
+            <i class="fas fa-dog text-2xl text-indigo-500 mb-2"></i>
+            <span class="font-semibold text-gray-800 font-inter text-sm"
+              >Dueño de mascota</span
+            >
+            <p class="text-xs text-gray-500 mt-1 font-inter">
+              Busca paseadores para tu mascota
+            </p>
+          </button>
+
+          <button
+            (click)="selectRole('walker')"
+            class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all group"
+          >
+            <i class="fas fa-walking text-2xl text-emerald-500 mb-2"></i>
+            <span class="font-semibold text-gray-800 font-inter text-sm"
+              >Paseador</span
+            >
+            <p class="text-xs text-gray-500 mt-1 font-inter">
+              Ofrece tus servicios como paseador
+            </p>
+          </button>
+        </div>
+      </div>
+      }
+
+      <!-- Botón de cerrar sesión -->
+      <div class="mt-8 pt-6 border-t border-gray-100">
+        <button
+          (click)="onLogout()"
+          class="text-gray-600 font-inter hover:text-red-600 transition-colors text-sm flex items-center justify-center mx-auto"
+        >
+          <i class="fas fa-sign-out-alt mr-2"></i>
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+</div>

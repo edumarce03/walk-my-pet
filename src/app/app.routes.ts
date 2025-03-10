@@ -5,11 +5,18 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { authGuard } from './guards/auth.guard';
 import { OwnerDashboardComponent } from './components/owner-dashboard/owner-dashboard.component';
 import { WalkerDashboardComponent } from './components/walker-dashboard/walker-dashboard.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  /*
+  {
+    path: 'loader',
+    component: LoaderComponent,
+  },
+  */
   { path: 'welcome', component: WelcomeComponent, canActivate: [authGuard] },
   {
     path: 'owner-dashboard',
